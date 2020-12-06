@@ -32,11 +32,11 @@ exports.getById = async (req, res) => {
 
 exports.post = async (req, res) => {
   try {
-    const { firstName, lastName, Employee } = req.body;
+    const { firstName, lastName, department } = req.body;
     const newEmployee = new Employee({
       firstName: firstName,
       lastName: lastName,
-      Employee: Employee,
+      department: department,
     });
     await newEmployee.save();
     res.json({ message: 'OK' });
@@ -46,14 +46,14 @@ exports.post = async (req, res) => {
 };
 
 exports.put = async (req, res) => {
-  const { firstName, lastName, Employee } = req.body;
+  const { firstName, lastName, department } = req.body;
 
   try {
     const emp = await Employee.findById(req.params.id);
     if (emp) {
       emp.firstName = firstName;
       emp.lastName = lastName;
-      emp.Employee = Employee;
+      emp.department = department;
       await emp.save();
       res.json({ message: 'OK' });
     } else res.status(404).json({ message: 'Not found...' });
