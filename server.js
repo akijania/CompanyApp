@@ -21,7 +21,8 @@ app.use((req, res) => {
 })
 
 // connects our backend code with the database
-mongoose.connect('mongodb://localhost:27017/companyDB', { useNewUrlParser: true });
+const dbURI = process.env.NODE_ENV === 'production' ? 'mongodb://localhost:27017/companyDB' : 'mongodb://localhost:27017/companyDB';
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
 db.once('open', () => {
@@ -29,6 +30,8 @@ db.once('open', () => {
 });
 db.on('error', err => console.log('Error ' + err));
 
-app.listen('8000', () => {
+const server = app.listen('8000', () => {
   console.log('Server is running on port: 8000');
 });
+
+module.exports = server;
